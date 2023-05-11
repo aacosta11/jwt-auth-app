@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server</title>
+</head>
+
+<body>
+    <style>
+        *::before,
+        *::after,
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #fff;
+        }
+
+        #root {
+            display: grid;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        form {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 0.75rem;
+            width: 100%;
+            max-width: 400px;
+            padding: 1.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+
+    <div id="root">
+        <h1>Auth Server</h1>
+        <form onsubmit="handleFormSubmit(event)">
+            <input name="pin" type="text" style="display: none;" value="0000">
+            <button>submit</button>
+        </form>
+    </div>
+
+    <script>
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const url = new URL(window.location.href);
+            const pin = e.target.pin.value;
+
+            fetch(url.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `pin=${pin}`
+            })
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                if ( data.error ) {
+                    return alert(data.error);
+                }
+                const { code, state, redirect_uri } = data;
+                window.location.href = `/auth/success?code=${code}&state=${state}&redirect_uri=${redirect_uri}`;
+            })
+            .catch(err => console.log(err))
+        }
+    </script>
+</body>
+
+</html>
