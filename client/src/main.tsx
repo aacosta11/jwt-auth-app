@@ -8,8 +8,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AppStateWrapper
       Child={
-        ({ accessToken, sessionId, updateAccessToken }: { accessToken: string, sessionId: string, updateAccessToken: Function }) =>
-          <App accessToken={accessToken} sessionId={sessionId} updateAccessToken={updateAccessToken} />
+        ({ accessToken, sessionId, updateCurrentSession }: { accessToken: string, sessionId: string, updateCurrentSession: Function }) =>
+          <App accessToken={accessToken} sessionId={sessionId} updateCurrentSession={updateCurrentSession} />
       }
     />
   </React.StrictMode>,

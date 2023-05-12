@@ -1,12 +1,15 @@
 import express from 'express';
-import routes from './routes';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import apiEndpoint from './routes/apiEndpoint';
+import authEndpoint from './routes/authEndpoint';
+import tokenEndpoint from './routes/tokenEndpoint';
+import cors from 'cors';
 
 var app = express();
 var port = process.env.PORT || 3000;
 
-const whitelist = [ 'localhost:5173' ];
+const whitelist = [ 'http://localhost:5173' ];
 const corsOptions = {
     credentials: true,
     origin: function (origin: any, callback: any) {
@@ -22,10 +25,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 
-app.use('/', routes);
+app.use(apiEndpoint);
+app.use(authEndpoint);
+app.use(tokenEndpoint);
 
 app.listen(port, function() {
     console.log('http://localhost:' + port);

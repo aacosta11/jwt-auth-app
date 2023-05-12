@@ -7,9 +7,8 @@ export default function AppStateWrapper({ Child }: { Child: Function }) {
 		sessionId: "",
 	});
 
-	const updateAccessToken = (accessToken: string) => {
-		let sessionId = document.cookie.split("session_id=")[1]?.split(";")[0];
-		setState({ ...state, accessToken, sessionId });
+	const updateCurrentSession = (accessToken?: string, sessionId?: string) => {
+		setState({ ...state, accessToken: accessToken || "", sessionId: sessionId || "" });
 	}
 
 	React.useEffect(() => {
@@ -34,5 +33,5 @@ export default function AppStateWrapper({ Child }: { Child: Function }) {
 	return state.isLoading ?
 		<div>loading...</div>
 		:
-		Child({ accessToken: state.accessToken, sessionId: state.sessionId, updateAccessToken })
+		Child({ accessToken: state.accessToken, sessionId: state.sessionId, updateCurrentSession })
 }
