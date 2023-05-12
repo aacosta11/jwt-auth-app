@@ -30,7 +30,7 @@ function App({ accessToken, sessionId, updateCurrentSession }: { accessToken: st
           <h1 className="text-3xl">client app</h1>
           <div className="grid grid-flow-col mt-6 w-fit gap-x-2">
             {[
-              { text: "GET /api", onClick: getApi }, 
+              { text: "GET /api", onClick: getApi },
               { text: "go to /auth", onClick: goToAuthPage },
               { text: 'DELETE /auth/logout', onClick: logoutAuth },
               { text: 'GET /auth/refresh', onClick: refreshAccessToken },
@@ -39,17 +39,17 @@ function App({ accessToken, sessionId, updateCurrentSession }: { accessToken: st
             ))}
           </div>
           <div>
-            <div className="mt-6">access token:</div>
+            <div className="mt-6">access token&#58;</div>
             <div className="max-w-lg break-all text-slate-300">{accessToken || "no token"}</div>
-            <div className="mt-6 ">session id:</div>
+            <div className="mt-6 ">session id&#58;</div>
             <div className="text-slate-300">{sessionId || "no session id"}</div>
           </div>
         </div>
-        <div className="p-4 border rounded-lg bg-slate-800">
-          <p>response from api:</p>
-          <div className="mt-4 text-sm text-white whitespace-pre-wrap">
-            {apiData ? JSON.stringify(apiData, null, 2) : "no data"}
-          </div>
+        <div className="p-4 overflow-hidden border rounded-lg bg-slate-800">
+          <p>response from api&#58;</p>
+          <pre className="mt-4 text-sm text-white">
+            {apiData ? <FormatJSON data={apiData} /> : "no data"}
+          </pre>
         </div>
       </div>
     </React.Fragment>
@@ -57,3 +57,29 @@ function App({ accessToken, sessionId, updateCurrentSession }: { accessToken: st
 }
 
 export default App
+
+function FormatJSON({ data }: { data: any }): JSX.Element {
+
+  const DATA: string[][] = Object.entries(data);
+
+  // return (
+  //   <pre>
+  //     {JSON.stringify(data)}
+  //   </pre>
+  // )
+
+  return (
+    <div>
+      <span className="block">&#123;</span>
+      <div className="pl-2">
+        {DATA.map(([key, value], i) => (
+          <div key={i} className="truncate overflow-ellipsis whitespace-nowrap">
+            <span>&#34;{key}&#34;&#58; </span>
+            <span title={value}>&#34;{value}&#34;</span>
+          </div>
+        ))}
+      </div>
+      <span className="block">&#125;</span>
+    </div>
+  )
+}

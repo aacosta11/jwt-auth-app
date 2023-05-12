@@ -39,7 +39,10 @@ export function getToken(callback?: Function) {
 		credentials: "include",
 	})
 		.then(res => res.json())
-		.then(data => callback && callback(data.accessToken, data.sessionId))
+		.then(data => {
+			callback && callback(data.accessToken, data.sessionId);
+			return data;
+		})
 		.catch(err => err)
 
 	return response;
