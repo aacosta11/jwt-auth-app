@@ -8,7 +8,7 @@ export default function AppStateWrapper({ Child }: { Child: Function }) {
 	});
 
 	const updateAccessToken = (accessToken: string) => {
-		let sessionId = document.cookie.split("session_id=")[1].split(";")[0];
+		let sessionId = document.cookie.split("session_id=")[1]?.split(";")[0];
 		setState({ ...state, accessToken, sessionId });
 	}
 

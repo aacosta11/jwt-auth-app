@@ -17,8 +17,9 @@ function App({ accessToken, sessionId, updateAccessToken }: { accessToken: strin
   }
 
   const logoutHandler = async () => {
-    await logout();
+    let response = await logout();
     updateAccessToken("");
+    setApiData(response);
   }
 
   return (
